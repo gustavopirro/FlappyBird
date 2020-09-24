@@ -19,6 +19,16 @@ class Game {
         this.entities.push(this.flappy);
     }
 
+    reset(){
+        this.entities = [];
+        this.pipes = [];
+        this.gameScore = 0;
+        this.passedPipes = 0;
+        this.continueGame = true;
+        this.flappy = new Flappy(50, 50, 35, 25, 'img/flappy.png');
+        this.entities.push(this.flappy);
+    }
+
     update() {
         this.render();
         this.checkFlappyCollision();
@@ -44,6 +54,8 @@ class Game {
         window.addEventListener("keydown", (e) => {
             if (e.key === " ") {
                 this.flappy.jump();
+            }else if(e.key === "r"){
+                this.reset();
             }
         })
     }
@@ -53,11 +65,10 @@ class Game {
         for (let entity of this.entities) {
             let img = new Image();
             img.src = entity.img;
-            img.onload = () =>{
-                this.ctx.drawImage(img, entity.x, entity.y, entity.width, entity.height)
-            };
+            this.ctx.drawImage(img, entity.x, entity.y, entity.width, entity.height);
+            }
         }
-    }
+    
 
     pipeGenerator() {
         let gap = 175,
