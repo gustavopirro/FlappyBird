@@ -22,10 +22,8 @@
 
         Utils.preload(["img/flappy.png", "img/pipe2.png", "img/pipe.png"], _ => { game.run() });
         
-        setInterval(() => {
-            let gameScore = document.getElementById("gameScore");
-            gameScore.innerHTML = game.gameScore
-        }, 1000 / 60);
+        game.scoreUpdate();
+
 
     </script>
 

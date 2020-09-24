@@ -8,6 +8,7 @@ class Game {
         this.gameScore = 0;
         this.numberOfFrames = 0;
         this.passedPipes = 0;
+        this.initialValues = [];
     }
 
     run() {
@@ -19,20 +20,30 @@ class Game {
         this.entities.push(this.flappy);
     }
 
-    reset(){
+
+    reset() {
         this.entities = [];
         this.pipes = [];
+        this.flappy = new Flappy(50, 50, 35, 25, 'img/flappy.png');
+        this.entities.push(this.flappy);
         this.gameScore = 0;
         this.passedPipes = 0;
         this.continueGame = true;
-        this.flappy = new Flappy(50, 50, 35, 25, 'img/flappy.png');
-        this.entities.push(this.flappy);
+        this.update();
+    }
+
+    scoreUpdate() {
+        setInterval(() => {
+            let gameScore = document.getElementById("gameScore");
+            gameScore.innerHTML = game.gameScore
+        }, 1000 / 60);
     }
 
     update() {
         this.render();
         this.checkFlappyCollision();
         this.applyVelocityToPosition();
+
         this.checkCanvasCollision();
         this.scoreCount();
         this.deletePassedPipes();
@@ -54,7 +65,7 @@ class Game {
         window.addEventListener("keydown", (e) => {
             if (e.key === " ") {
                 this.flappy.jump();
-            }else if(e.key === "r"){
+            } else if (e.key === "r") {
                 this.reset();
             }
         })
@@ -66,9 +77,9 @@ class Game {
             let img = new Image();
             img.src = entity.img;
             this.ctx.drawImage(img, entity.x, entity.y, entity.width, entity.height);
-            }
         }
-    
+    }
+
 
     pipeGenerator() {
         let gap = 175,
@@ -96,8 +107,8 @@ class Game {
     }
 
     applyVelocityToPosition() {
-        this.flappy.x += this.flappy.velocityX
-        this.flappy.y += this.flappy.velocityY
+        this.flappy.x += this.flappy.velocityX;
+        this.flappy.y += this.flappy.velocityY;
     }
 
     checkFlappyCollision() {
@@ -124,9 +135,9 @@ class Game {
         let index = 0;
         for (let pipe of this.pipes) {
             if (pipe.right < 0) {
-                this.pipes.splice(index, 1)
-                let indexEntities = this.entities.indexOf(pipe)
-                this.entities.splice(indexEntities, 1)
+                this.pipes.splice(index, 1);
+                let indexEntities = this.entities.indexOf(pipe);
+                this.entities.splice(indexEntities, 1);
                 this.passedPipes++;
             }
             index++;
@@ -145,7 +156,6 @@ class Game {
 
     gameOver() {
         this.continueGame = false;
-        console.log("colidiu, game over")
     }
 }
 
