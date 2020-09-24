@@ -1,0 +1,15 @@
+#flappyCanvas{
+    border: solid 1px;
+    background-image: url("../img/sky.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: relative;
+}
+
+#gameScore {
+    position: absolute;
+    top: 10px;
+    left: 950px;
+    font-size: 40px;
+}
