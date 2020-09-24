@@ -53,9 +53,7 @@ class Game {
         for (let entity of this.entities) {
             let img = new Image();
             img.src = entity.img;
-            img.onload = () =>{
                 this.ctx.drawImage(img, entity.x, entity.y, entity.width, entity.height)
-            };
         }
     }
 
