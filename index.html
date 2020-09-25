@@ -24,7 +24,10 @@
         
         game.scoreUpdate();
 
-
+        setInterval(() => {
+            let gameScore = document.getElementById("gameScore");
+            gameScore.innerHTML = game.gameScore
+        }, 1000 / 60);
     </script>
 
 </body>

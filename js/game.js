@@ -9,6 +9,9 @@ class Game {
         this.numberOfFrames = 0;
         this.passedPipes = 0;
         this.initialValues = [];
+        this.delta = 0;
+        this._lastFrameStart = 0;
+        this.gameSpeedMultiplier = 0.075
     }
 
     run() {
@@ -35,15 +38,11 @@ class Game {
         this.continueGame = true;
     }
 
-    scoreUpdate() {
-        setInterval(() => {
-            let gameScore = document.getElementById("gameScore");
-            gameScore.innerHTML = game.gameScore
-        }, 1000 / 60);
-    }
-
     update() {
-        if(this.continueGame){
+        if (this.continueGame) {
+            const now = performance.now()
+            this.delta = now - this._lastFrameStart
+            this._lastFrameStart = now
             this.render();
             this.checkFlappyCollision();
             this.applyVelocityToPosition();
@@ -51,15 +50,15 @@ class Game {
             this.checkCanvasCollision();
             this.scoreCount();
             this.deletePassedPipes();
-            console.log(0 % 90)
             this.flappy.velocityY += 0.3;
+
             if (this.numberOfFrames % 90 === 0) {
                 this.pipeGenerator();
             }
-            this.pipeMover();
-                requestAnimationFrame(() => {
-                    this.update()
-                })
+
+            requestAnimationFrame(() => {
+                this.update()
+            })
             
             this.numberOfFrames++;
         }
@@ -97,6 +96,9 @@ class Game {
         pipeUp.bottom = gapCenter - gap / 2;
         pipeDown.top = gapCenter + gap / 2;
 
+        pipeUp.velocityX = -4;
+        pipeDown.velocityX = -4;
+
         this.entities.push(pipeUp)
         this.pipes.push(pipeUp)
 
@@ -104,15 +106,11 @@ class Game {
         this.pipes.push(pipeDown)
     }
 
-    pipeMover() {
-        for (let pipe of this.pipes) {
-            pipe.x -= 4;
-        }
-    }
-
     applyVelocityToPosition() {
-        this.flappy.x += this.flappy.velocityX;
-        this.flappy.y += this.flappy.velocityY;
+        for (const entity of this.entities) {
+            entity.x += this.delta * this.gameSpeedMultiplier * entity.velocityX;
+            entity.y += this.delta * this.gameSpeedMultiplier * entity.velocityY;
+        }
     }
 
     checkFlappyCollision() {
