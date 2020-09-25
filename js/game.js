@@ -28,8 +28,11 @@ class Game {
         this.entities.push(this.flappy);
         this.gameScore = 0;
         this.passedPipes = 0;
+        if(!this.continueGame){
+            this.continueGame = true;
+            this.update();
+        }
         this.continueGame = true;
-        this.update();
     }
 
     scoreUpdate() {
@@ -40,25 +43,26 @@ class Game {
     }
 
     update() {
-        this.render();
-        this.checkFlappyCollision();
-        this.applyVelocityToPosition();
-
-        this.checkCanvasCollision();
-        this.scoreCount();
-        this.deletePassedPipes();
-
-        this.flappy.velocityY += 0.3;
-        if (this.numberOfFrames % 90 === 0) {
-            this.pipeGenerator();
+        if(this.continueGame){
+            this.render();
+            this.checkFlappyCollision();
+            this.applyVelocityToPosition();
+    
+            this.checkCanvasCollision();
+            this.scoreCount();
+            this.deletePassedPipes();
+            console.log(0 % 90)
+            this.flappy.velocityY += 0.3;
+            if (this.numberOfFrames % 90 === 0) {
+                this.pipeGenerator();
+            }
+            this.pipeMover();
+                requestAnimationFrame(() => {
+                    this.update()
+                })
+            
+            this.numberOfFrames++;
         }
-        this.pipeMover();
-        if (this.continueGame) {
-            requestAnimationFrame(() => {
-                this.update()
-            })
-        }
-        this.numberOfFrames++;
     }
 
     input() {
