@@ -1,10 +1,15 @@
 # FlappyBird
 
-FlappyBird made with Vanilla Javascript and HTML Canvas for study purposes
-
-How to use:
+## Controls
 ```bash
-# Clone this repository and open index.html, press R to reset the game
+R - Reset Game
+Space - Jump
 ```
 
- You can test it online on https://gustavopirro.github.io/FlappyBird/
+## Play it on https://gustavopirro.github.io/FlappyBird/
+
+made with 
+Vanilla Javascript
+HTML Canvas
+
+
